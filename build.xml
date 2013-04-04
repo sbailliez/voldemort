@@ -8,6 +8,11 @@
   <property name="author" value="Jay Kreps, Roshan Sumbaly, Alex Feinberg, Bhupesh Bansal, Lei Gao, Chinmay Soman, Vinoth Chandar, Zhongjie Wu" />
   <property environment="env" />
 
+  <tstamp>
+      <format property="build.timestamp" pattern="yyyyMMddHHmmss" locale="en" timezone="GMT"/>
+      <format property="jar.timestamp" pattern="yyyy-MM-dd HH:mm:ss zz" locale="en" timezone="GMT"/>
+  </tstamp>
+
   <path id="main-classpath">
     <path refid="ivy.compile.classpath"/>
     <pathelement path="${classes.dir}" />
@@ -93,14 +98,6 @@
         <exclude name="**/log4j.properties" />
       </fileset>
     </copy>
-    <replace-dir dir="META-INF" />
-  	<echo message="creating manifest"/>
-    <manifest file="META-INF/MANIFEST.MF">   
-      <attribute name="Voldemort-Implementation-Version" value="${curr.release}" />
-      <attribute name="Implementation-Title" value="Voldemort" />
-      <attribute name="Implementation-Version" value="${curr.release}" />
-      <attribute name="Implementation-Vendor" value="LinkedIn" />
-    </manifest>
     <!-- place to put log4j.properties -->
     <replace-dir dir="${resources.dir}"/>
     <copy file="${java.dir}/log4j.properties" todir="${resources.dir}"/>
@@ -165,17 +162,28 @@
   -->
 
   <target name="jar" depends="build" description="Build server jar file">
-    <jar destfile="${dist.dir}/${name}-${curr.release}.jar"  manifest="META-INF/MANIFEST.MF">
+    <jar destfile="${dist.dir}/${name}-${curr.release}.jar" index="true">
+        <manifest>
+          <attribute name="Voldemort-Implementation-Version" value="${curr.release}" />
+
+          <attribute name="Build-Creator" value="${user.name}"/>
+          <attribute name="Build-Date" value="${jar.timestamp}"/>
+          <attribute name="Build-Platform" value="${os.name} ${os.version} ${os.arch}"/>
+          <attribute name="Build-Version" value="${curr.release}"/>
+
+          <attribute name="Implementation-Title" value="${Implementation-Title}"/>
+          <attribute name="Implementation-Version" value="${curr.release}"/>
+          <attribute name="Implementation-Vendor" value="${Implementation-Vendor}"/>
+          <attribute name="Implementation-Vendor-Id" value="${Implementation-Vendor-Id}"/>
+          <attribute name="Implementation-Vendor-URL" value="${Implementation-Vendor-URL}"/>
+        </manifest>
+    
       <fileset dir="${classes.dir}">
         <include name="**/*.*" />
       </fileset>
       <!-- include xsds -->
       <fileset dir="${java.dir}">
         <include name="**/*.xsd" />
-      </fileset>
-    	
-    	<fileset dir=".">
-    	 		<include name="META-INF/MANIFEST.MF" />
       </fileset>
     </jar>
   </target>
@@ -190,7 +198,7 @@
   </target>
 
   <target name="alljar" depends="build, contrib-build" description="Build a jar file that includes all contrib code.">
-    <jar destfile="${dist.dir}/${name}-${curr.release}-all.jar">
+    <jar destfile="${dist.dir}/${name}-${curr.release}-all.jar" index="true">
       <fileset dir="${classes.dir}">
         <include name="**/*.*" />
       </fileset>

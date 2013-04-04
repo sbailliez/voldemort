@@ -1,0 +1,82 @@
+<ivysettings>
+    <property name="common.dir" value="${ivy.conf.dir}"/>
+    <property name="ivy.cache.dir" value="${common.dir}/../.ivy"/>
+    
+    <!-- make changing anything that has -SNAPSHOT, or x.y.z.yyyymmddhhmmss or ryyyymmdd. -->
+    <property name="build.changing.pattern" value="(\d+\.\d+\.\d+\.\d{14}|.+-SNAPSHOT)"/>
+    
+    <properties file="${ivy.conf.dir}/build.properties" override="false"/>
+    <!--property name="ivy.cache.ttl.default" value="5m"/-->
+
+    <caches defaultCacheDir="${ivy.cache.dir}" lockStrategy="no-lock" useorigin="true">
+
+    </caches>
+
+    <settings   defaultResolver="remote.chain"
+                defaultLatestStrategy="latest-revision"
+                defaultConflictManager="latest-revision"/>
+
+    <!--latest-strategies>
+        <latest-revision name="strategy-latest-revision">
+        </latest-revision>
+    </latest-strategies>
+
+    <conflict-managers>
+        <latest-cm name="conflict-latest-revision" latest="strategy-latest-revision" />
+    </conflict-managers-->
+
+    <statuses default="integration">
+        <status name="release" integration="false"/>
+        <status name="integration" integration="true"/>
+        <status name="development" integration="true"/>
+    </statuses>
+
+    <macrodef name="localrepo">
+        <filesystem descriptor="required" checkmodified="true" checkconsistency="true" changingPattern="${build.changing.pattern}">
+            <ivy pattern="${repository.development.dir}/${ivy.default.ivy.pattern}"/>
+            <artifact pattern="${repository.development.dir}/${ivy.default.artifact.pattern}"/>
+        </filesystem>
+    </macrodef>
+
+    <macrodef name="maven2">
+        <attribute name="name"/>
+        <attribute name="root"/>
+        <attribute name="usepoms" default="true"/>
+        <attribute name="checkmodified" default="false"/>
+        <ibiblio name="@{name}" root="@{root}"
+            m2compatible="true" usepoms="@{usepoms}"
+            pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
+    </macrodef>
+
+    <resolvers>
+        
+        
+        <maven2 name="remote.maven.central" root="http://repo1.maven.org/maven2/"/>
+        <maven2 name="remote.sonatype" root="https://oss.sonatype.org/content/repositories/releases/"/>
+        <maven2 name="remote.oracle" root="http://download.oracle.com/maven"/>
+        
+        <ibiblio name="maven.cache"
+            root="file://${user.home}/.m2/repository"
+            m2compatible="true" usepoms="true"
+            pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"
+            checkmodified="true" changingPattern="${build.changing.pattern}"/>
+
+        <filesystem name="development" descriptor="required" checkmodified="true" checkconsistency="true" changingPattern="${build.changing.pattern}">
+            <ivy pattern="${repository.development.dir}/${ivy.default.ivy.pattern}"/>
+            <artifact pattern="${repository.development.dir}/${ivy.default.artifact.pattern}"/>
+        </filesystem>
+
+        <chain name="remote.chain" returnFirst="true">
+            <localrepo name="local"/>
+            <resolver ref="remote.maven.central"/>
+            <resolver ref="remote.sonatype"/>
+            <resolver ref="remote.oracle"/>
+        </chain>
+
+    </resolvers>
+
+    <modules>
+
+    </modules>
+
+</ivysettings>

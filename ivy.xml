@@ -1,0 +1,100 @@
+<ivy-module version="2.0"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd"
+            xmlns:m="http://ant.apache.org/ivy/maven">
+
+    <info organisation="voldemort" module="${project.name}">
+        <description homepage="http://project-voldemort.com/">Project Voldemort</description>
+    </info>
+    
+    <configurations>
+        <conf name="default" description="Default dependencies"/>
+        <conf name="runtime" description="Only runtime" extends="default"/>
+        <conf name="test" description="Only for unit testing" extends="compile,runtime"/>
+        <conf name="compile" description="Only for compilation" extends="default"/>
+        <conf name="sources" description="Sources for the project"/>
+        <conf name="javadoc" description="Javadoc for the project"/>
+    </configurations>
+    
+    <publications>
+        <artifact name="${project.name}" type="jar" ext="jar" conf="default"/>
+        <artifact name="${project.name}" type="source" ext="jar" conf="sources" m:classifier="sources"/>
+        <artifact name="${project.name}" type="javadoc" ext="jar" conf="javadoc" m:classifier="javadoc"/>
+    </publications>
+
+    <dependencies defaultconf="default">
+        <!-- we're missing azkaban-common --> 
+        
+        <dependency org="org.apache.avro" name="avro" rev="1.4.0"/>
+        <dependency org="colt" name="colt" rev="1.2.0"/>
+
+        <dependency org="com.google.collections" name="google-collections" rev="1.0"/>
+        <dependency org="commons-codec" name="commons-codec" rev="1.4"/>
+        <dependency org="commons-collections" name="commons-collections" rev="3.2.1"/>
+        <dependency org="commons-dbcp" name="commons-dbcp" rev="1.2.2"/>
+        <dependency org="commons-pool" name="commons-pool" rev="1.5.2"/>
+        <dependency org="commons-io" name="commons-io" rev="1.4"/>
+        <dependency org="commons-lang" name="commons-lang" rev="2.4"/>
+        <dependency org="commons-logging" name="commons-logging" rev="1.1.1"/>
+        <dependency org="com.ning" name="compress-lzf" rev="0.9.1"/>
+        <dependency org="org.apache.httpcomponents" name="httpclient" rev="4.1.2"/>
+        <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.4.0"/>
+        <dependency org="org.jdom" name="jdom" rev="1.1.2"/>
+        <dependency org="jline" name="jline" rev="0.9.94"/>
+
+        <dependency org="com.sleepycat" name="je" rev="4.1.17"/>
+
+        <dependency org="org.mortbay.jetty" name="jetty" rev="6.1.18"/>
+        <dependency org="org.mortbay.jetty" name="jetty-util" rev="6.1.18"/>
+        
+        <dependency org="net.java.dev.jna" name="jna" rev="3.3.0"/>
+        <dependency org="joda-time" name="joda-time" rev="1.6.1"/>
+        <dependency org="net.sf.jopt-simple" name="jopt-simple" rev="3.1"/>
+        <dependency org="junit" name="junit" rev="4.6"/>
+        
+        <dependency org="org.apache.cassandra.deps" name="libthrift" rev="0.5.0"/>
+        <dependency org="log4j" name="log4j" rev="1.2.15"/>
+        <dependency org="javax.mail" name="mail" rev="1.4.1"/>
+        
+        <dependency org="org.mockito" name="mockito-all" rev="1.8.5"/>
+        <dependency org="io.netty" name="netty" rev="3.5.8.Final"/>
+        <dependency org="com.thoughtworks.paranamer" name="paranamer" rev="2.1"/>
+        <dependency org="com.google.protobuf" name="protobuf-java" rev="2.3.0"/>
+        <dependency org="org.slf4j" name="slf4j-api" rev="1.5.6"/>
+        <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.6"/>
+        
+        <dependency org="org.iq80.snappy" name="snappy" rev="0.2"/>
+        <dependency org="org.apache.velocity" name="velocity" rev="1.6.2"/>
+        <dependency org="xerces" name="xercesImpl" rev="2.9.1"/>
+        
+        <!-- doing lots of excludes there to remove unneeded transitive dependencies and match the
+            exact libraries that were committed in lib before -->
+        
+        <!-- jetty comes with its own servlet-api with different groupId, so avoid multiple versions -->
+        <exclude org="javax.servlet" module="servlet-api"/>
+        <exclude org="com.thoughtworks.paranamer" module="paranamer-ant"/>
+        <exclude org="com.thoughtworks.paranamer" module="paranamer-generator"/>
+        <exclude org="com.thoughtworks.qdox" module="qdox"/>
+        <exclude org="asm" module="asm"/>
+        <exclude org="org.apache.ant" module="ant"/>
+        <exclude org="org.apache.ant" module="ant-launcher"/>
+        <exclude org="oro" module="oro"/>
+        <exclude org="concurrent" module="concurrent"/>
+        <exclude org="jaxen" module="jaxen"/>
+        <exclude org="dom4j" module="dom4j"/>
+        <exclude org="xml-apis" module="xml-apis"/>
+        <exclude org="xom" module="xom"/>
+        <exclude org="xalan" module="xalan"/>
+        <exclude org="com.ibm.icu" module="icu4j"/>
+        <exclude org="maven-plugins"/>
+        <exclude org="cobertura" module="cobertura"/>
+        <exclude org="commons-jelly" module="commons-jelly-tags-log"/>
+        <exclude org="findbugs" module=""/>
+        <exclude org="javax.jms" module="jms"/>
+        <exclude org="com.sun.jdmk" module="jmxtools"/>
+        <exclude org="com.sun.jmx" module="jmxri"/>
+        <exclude org="javax.activation" module="activation"/>
+        
+    </dependencies>
+
+</ivy-module>
