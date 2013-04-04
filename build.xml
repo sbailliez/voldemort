@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="voldemort" basedir="." default="all">
+<project name="voldemort" basedir="." default="all" xmlns:ivy="antlib:fr.jayasoft.ivy.ant">
   <property file="build.properties" />
 
   <property name="name" value="voldemort" />
@@ -9,9 +9,7 @@
   <property environment="env" />
 
   <path id="main-classpath">
-    <fileset dir="${lib.dir}">
-      <include name="*.jar" />
-    </fileset>
+    <path refid="ivy.compile.classpath"/>
     <pathelement path="${classes.dir}" />
   </path>
 
@@ -68,7 +66,24 @@
     <replace-dir dir="${javadoc.dir}" />
   </target>
 
-  <target name="build" description="Compile main source tree java files">
+  <property name="common.dir" location="build"/>
+  <path id="antlib.classpath">
+      <fileset dir="${common.dir}/lib" includes="*.jar"/>
+  </path>
+  <taskdef uri="antlib:fr.jayasoft.ivy.ant" resource="fr/jayasoft/ivy/ant/antlib.xml"
+      classpathref="antlib.classpath" loaderref="antlib.classpath.loader"/>
+  <property name="ivy.conf.dir" location="${common.dir}"/>
+
+  <target name="ivy:init">
+      <ivy:configure file="${ivy.conf.dir}/ivyconf.xml"/>
+      <ivy:resolve log="default" conf="*" showprogress="false" type="jar,bundle" refresh="true"/>
+      <ivy:cachepath useorigin="true" pathid="ivy.compile.classpath" type="jar,bundle" conf="compile"/>
+      <ivy:cachepath useorigin="true" pathid="ivy.test.classpath" type="jar,bundle" conf="test"/>
+      <ivy:retrieve pattern="lib/[organisation].[artifact]-[revision].[ext]" conf="default" 
+          type="jar,bundle" sync="true"/>
+  </target>
+
+  <target name="build" description="Compile main source tree java files" depends="ivy:init">
     <replace-dir dir="${classes.dir}" />
     <!-- copy non-java files to classes dir to load from classpath -->
     <copy todir="${classes.dir}">
@@ -469,7 +484,7 @@
     <make-javadocs dir="${javadoc.dir}/client" packagenames="voldemort.versioning.*, voldemort.client.*,voldemort.serialization.*" javadir="${java.dir}"/>
   </target>
 
-  <target name="redeploy" depends="war, deploy">
+  <!--target name="redeploy" depends="war, deploy">
   </target>
 
   <taskdef file="tomcat-tasks.properties">
@@ -491,6 +506,6 @@
                  username="${tomcat.manager.username}"
                  password="${tomcat.manager.password}"
                  path="${tomcat.context}"/>
-  </target>
+  </target-->
 
 </project>
