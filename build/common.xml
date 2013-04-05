@@ -1,0 +1,43 @@
+<project name="common" xmlns:ivy="antlib:fr.jayasoft.ivy.ant">
+    
+    <property file="${common.dir}/build.properties" />
+    
+    <path id="antlib.classpath">
+        <fileset dir="${common.dir}/lib" includes="*.jar"/>
+    </path>
+    <taskdef uri="antlib:fr.jayasoft.ivy.ant" resource="fr/jayasoft/ivy/ant/antlib.xml"
+        classpathref="antlib.classpath" loaderref="antlib.classpath.loader"/>
+    <property name="ivy.conf.dir" location="${common.dir}"/>
+
+    <tstamp>
+        <format property="build.timestamp" pattern="yyyyMMddHHmmss" locale="en" timezone="GMT"/>
+        <format property="jar.timestamp" pattern="yyyy-MM-dd HH:mm:ss zz" locale="en" timezone="GMT"/>
+    </tstamp>
+
+    <target name="ivy:init">
+        <ivy:configure file="${common.dir}/ivyconf.xml"/>
+        <ivy:resolve log="default" conf="*" showprogress="false" type="jar,bundle" refresh="true"/>
+        <ivy:cachepath useorigin="true" pathid="ivy.compile.classpath" type="jar,bundle" conf="compile"/>
+        <ivy:cachepath useorigin="true" pathid="ivy.test.classpath" type="jar,bundle" conf="test"/>
+        <ivy:retrieve pattern="lib/[organisation].[artifact]-[revision].[ext]" conf="default" 
+            type="jar,bundle" sync="true"/>
+    </target>
+
+    <target name="ivy:clean">
+        <delete dir="${ivy.cache.dir}"/>
+    </target>
+    
+    <target name="properties:system" description="Display system properties">
+    <echo level="info">
+-- System ---------------------------------------------------
+  java             : ${java.version} ( ${java.vendor} )
+  java.home        : ${java.home}
+  os               : ${os.name} ${os.version} ${os.arch}
+  file.encoding    : ${file.encoding}
+  user.country     : ${user.country}
+  user.language    : ${user.language}
+  ant.home         : ${ant.home}
+  ant.version      : ${ant.version}
+</echo>
+    </target>
+</project>

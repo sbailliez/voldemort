@@ -15,3 +15,4 @@ server.state
 .idea
 data/
 .ivy
+lib/

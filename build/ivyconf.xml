@@ -1,12 +1,9 @@
 <ivysettings>
-    <property name="common.dir" value="${ivy.conf.dir}"/>
-    <property name="ivy.cache.dir" value="${common.dir}/../.ivy"/>
-    
+
     <!-- make changing anything that has -SNAPSHOT, or x.y.z.yyyymmddhhmmss or ryyyymmdd. -->
     <property name="build.changing.pattern" value="(\d+\.\d+\.\d+\.\d{14}|.+-SNAPSHOT)"/>
     
-    <properties file="${ivy.conf.dir}/build.properties" override="false"/>
-    <!--property name="ivy.cache.ttl.default" value="5m"/-->
+    <properties file="${common.dir}/build.properties" override="false"/>
 
     <caches defaultCacheDir="${ivy.cache.dir}" lockStrategy="no-lock" useorigin="true">
 
