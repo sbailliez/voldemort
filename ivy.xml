@@ -43,8 +43,8 @@
 
         <dependency org="com.sleepycat" name="je" rev="4.1.17"/>
 
-        <dependency org="org.mortbay.jetty" name="jetty" rev="6.1.18"/>
-        <dependency org="org.mortbay.jetty" name="jetty-util" rev="6.1.18"/>
+        <dependency org="org.mortbay.jetty" name="jetty" rev="6.1.26"/>
+        <dependency org="org.mortbay.jetty" name="jetty-util" rev="6.1.26"/>
         
         <dependency org="net.java.dev.jna" name="jna" rev="3.3.0"/>
         <dependency org="joda-time" name="joda-time" rev="1.6.1"/>
