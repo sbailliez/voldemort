@@ -65,6 +65,9 @@ import voldemort.versioning.Versioned;
  */
 public class HttpGetAllRequestExecutor implements Runnable {
 
+    /** creating an object mapper is expensive, you only need one */
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     private MessageEvent getRequestMessageEvent;
     DynamicTimeoutStoreClient<ByteArray, byte[]> storeClient;
     private final Logger logger = Logger.getLogger(HttpGetRequestExecutor.class);
@@ -108,7 +111,6 @@ public class HttpGetAllRequestExecutor implements Runnable {
 
                 VectorClock vc = (VectorClock) value.getVersion();
                 VectorClockWrapper vcWrapper = new VectorClockWrapper(vc);
-                ObjectMapper mapper = new ObjectMapper();
                 String eTag = "";
                 try {
                     eTag = mapper.writeValueAsString(vcWrapper);

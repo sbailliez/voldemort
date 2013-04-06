@@ -99,6 +99,9 @@ import com.google.common.collect.Sets;
  */
 public class VoldemortAdminTool {
 
+    /** creating an object mapper is expensive, you only need one */
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     private static final String ALL_METADATA = "all";
     private static final String STORES_VERSION_KEY = "stores.xml";
     private static final String CLUSTER_VERSION_KEY = "cluster.xml";
@@ -1275,7 +1278,7 @@ public class VoldemortAdminTool {
                     @Override
                     public void writeTo(BufferedWriter out) throws IOException {
                         final StringWriter stringWriter = new StringWriter();
-                        final JsonGenerator generator = new JsonFactory(new ObjectMapper()).createJsonGenerator(stringWriter);
+                        final JsonGenerator generator = new JsonFactory(mapper).createJsonGenerator(stringWriter);
 
                         while(entriesIterator.hasNext()) {
                             Pair<ByteArray, Versioned<byte[]>> kvPair = entriesIterator.next();

@@ -58,6 +58,9 @@ import voldemort.versioning.VectorClock;
  */
 public class VoldemortHttpRequestHandler extends SimpleChannelUpstreamHandler {
 
+    /** creating an object mapper is expensive, you only need one */
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     public HttpRequest request;
     private boolean readingChunks;
     /** Buffer that stores the response content */
@@ -278,7 +281,6 @@ public class VoldemortHttpRequestHandler extends SimpleChannelUpstreamHandler {
      */
     private VectorClock getVectorClock(String vectorClockHeader) {
         VectorClock vc = null;
-        ObjectMapper mapper = new ObjectMapper();
         if(logger.isDebugEnabled()) {
             logger.debug("Received vector clock : " + vectorClockHeader);
         }
