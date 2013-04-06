@@ -1,0 +1,14 @@
+name: universe
+zones:
+  - id: 0
+    proximityList: [ 1 ]
+  - id: 1
+    proximityList: [ 0 ]
+servers:
+  - id: 0
+    host: localhost
+    httpPort: 8080
+    socketPort: 6666
+    adminPort: 6667
+    partitions: [ 0, 3, 67899] # invalid partition
+    zoneId: 0

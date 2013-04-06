@@ -60,13 +60,16 @@
         <dependency org="io.netty" name="netty" rev="3.5.8.Final"/>
         <dependency org="com.thoughtworks.paranamer" name="paranamer" rev="2.1"/>
         <dependency org="com.google.protobuf" name="protobuf-java" rev="2.3.0"/>
-        <dependency org="org.slf4j" name="slf4j-api" rev="1.5.6"/>
-        <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.6"/>
+        <dependency org="org.slf4j" name="slf4j-api" rev="1.7.5"/>
+        <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.5"/>
         
         <dependency org="org.iq80.snappy" name="snappy" rev="0.2"/>
         <dependency org="org.apache.velocity" name="velocity" rev="1.6.2"/>
         <dependency org="xerces" name="xercesImpl" rev="2.9.1"/>
         
+        <!--dependency org="org.yaml" name="snakeyaml" rev="1.12"/>
+        <dependency org="org.hibernate" name="hibernate-validator" rev="4.2.0.Final"/-->
+
         <!-- doing lots of excludes there to remove unneeded transitive dependencies and match the
             exact libraries that were committed in lib before -->
         

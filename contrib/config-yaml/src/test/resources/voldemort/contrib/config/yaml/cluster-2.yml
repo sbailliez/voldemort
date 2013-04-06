@@ -1,0 +1,29 @@
+name: universe
+zones:
+  - id: 0
+    proximityList: [ 1 ]
+  - id: 1
+    proximityList: [ 0 ]
+
+servers:
+  - id: 0
+    host: localhost
+    httpPort: 8080
+    socketPort: 6666
+    adminPort: 6667
+    partitions: [ 0, 3]
+    zoneId: 0
+  - id: 1
+    host: localhost
+    httpPort: 8081
+    socketPort: 6668
+    adminPort: 6669
+    partitions: [ 1, 4]
+    zoneId: 0
+  - id: 2
+    host: localhost
+    httpPort: 8082
+    socketPort: 6670
+    adminPort: 6671
+    partitions: [ 2, 5]
+    zoneId: 1

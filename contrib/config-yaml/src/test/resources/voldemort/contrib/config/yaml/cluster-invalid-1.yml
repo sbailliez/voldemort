@@ -1,0 +1,9 @@
+name: # no name
+servers:
+  - id: 0
+    host: localhost
+    httpPort: 8080
+    socketPort: 6666
+    adminPort: 6667
+    partitions: [ 0, 3]
+    zoneId: 0

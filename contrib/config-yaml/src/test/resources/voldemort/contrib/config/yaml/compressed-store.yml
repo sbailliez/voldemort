@@ -1,0 +1,20 @@
+stores:
+  - name: test
+    persistence: bdb
+    routing: client
+    replicationFactor: 1
+    preferredReads: 1
+    requiredReads: 1
+    preferredWrites: 1
+    requiredWrites: 1
+    keySerializer:
+      type: string
+      schemaInfos:
+        - value: UTF-8
+          version: 0
+    valueSerializer:
+      type: string
+      schemaInfos:
+        - value: UTF-8
+      compression:
+        type: gzip

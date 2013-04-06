@@ -1,0 +1,23 @@
+stores:
+  - name: test
+    persistence: bdb
+    description: Test store
+    owners:
+      - harry@hogwarts.edu
+      - hermoine@hogwarts.edu
+    routingStrategy: consistent-routing
+    routing: client
+    replicationFactor: 5
+    zoneReplicationFactor:
+      - replicationFactor: 2
+        zoneId: 0
+      - replicationFactor: 1
+        zoneId: 1
+    zoneCountReads: 1
+    zoneCountWrites: 1
+    requiredReads: 2
+    requiredWrites: 2
+    keySerializer:
+      type: string
+    valueSerializer:
+      type: string
