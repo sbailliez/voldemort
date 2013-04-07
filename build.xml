@@ -28,7 +28,7 @@
   </condition>
 
   <path id="contrib-classpath">
-    <pathelement path="${resources.dir}" />
+    <pathelement path="${test.resources.dir}" />
     <fileset dir="${dist.dir}">
       <include name="${name}-${curr.release}.jar" />
     </fileset>
@@ -39,7 +39,7 @@
   </path>
 
   <path id="test-classpath">
-    <pathelement path="${resources.dir}" />
+    <pathelement path="${test.resources.dir}" />
     <pathelement path="${env.VOLD_TEST_JARS}" />
     <path refid="main-classpath" />
     <pathelement path="${testclasses.dir}" />
@@ -71,21 +71,17 @@
 
   <target name="build" description="Compile main source tree java files" depends="ivy:init">
     <replace-dir dir="${classes.dir}" />
-    <!-- copy non-java files to classes dir to load from classpath -->
+
+    <!-- copy resources -->
     <copy todir="${classes.dir}">
-      <fileset dir="${java.dir}">
-        <exclude name="**/*.java" />
-        <exclude name="**/*.html" />
-        <exclude name="**/log4j.properties" />
-      </fileset>
+      <fileset dir="${main.resources.dir}"/>
     </copy>
-    <!-- place to put log4j.properties -->
-    <replace-dir dir="${resources.dir}"/>
-    <copy file="${java.dir}/log4j.properties" todir="${resources.dir}"/>
+
     <javac destdir="${classes.dir}" target="1.5" debug="true" deprecation="false" failonerror="true" includeantruntime="false">
       <src path="${java.dir}" />
       <classpath refid="main-classpath" />
     </javac>
+
   </target>
 
   <target name="buildtest" description="Compile test classes">
@@ -162,10 +158,6 @@
       <fileset dir="${classes.dir}">
         <include name="**/*.*" />
       </fileset>
-      <!-- include xsds -->
-      <fileset dir="${java.dir}">
-        <include name="**/*.xsd" />
-      </fileset>
     </jar>
   </target>
 
@@ -185,10 +177,6 @@
       </fileset>
       <fileset dir="${contrib.classes.dir}">
         <include name="**/*.*" />
-      </fileset>
-      <!-- include xsds -->
-      <fileset dir="${java.dir}">
-        <include name="**/*.xsd" />
       </fileset>
     </jar>
   </target>
