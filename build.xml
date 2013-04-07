@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="voldemort" basedir="." default="all" xmlns:ivy="antlib:fr.jayasoft.ivy.ant">
+<project name="voldemort" basedir="." default="all" xmlns:ivy="antlib:fr.jayasoft.ivy.ant" xmlns:tomcat="antlib:org.apache.tomcat">
   <property file="build.properties" />
 
   <property name="common.dir" location="build"/>
@@ -473,28 +473,27 @@
     <make-javadocs dir="${javadoc.dir}/client" packagenames="voldemort.versioning.*, voldemort.client.*,voldemort.serialization.*" javadir="${java.dir}"/>
   </target>
 
-  <!--target name="redeploy" depends="war, deploy">
+  <target name="redeploy" depends="war, deploy">
   </target>
 
-  <taskdef file="tomcat-tasks.properties">
-    <classpath>
-      <path location="${lib.dir}/catalina-ant.jar" />
-    </classpath>
-  </taskdef>
+
+  <taskdef uri="antlib:org.apache.tomcat" resource="org/apache/catalina/ant/antlib.xml"
+             classpathref="antlib.classpath" loaderref="antlib.classpath.loader"/>
 
   <target name="list" description="List Tomcat applications">
-    <list url="${tomcat.manager.url}" username="${tomcat.manager.username}" password="${tomcat.manager.password}" />
+    <tomcat:list url="${tomcat.manager.url}" username="${tomcat.manager.username}" password="${tomcat.manager.password}" />
   </target>
 
   <target name="deploy" description="Deploy application" depends="war">
-    <deploy url="${tomcat.manager.url}" username="${tomcat.manager.username}" password="${tomcat.manager.password}" path="${tomcat.context}" update="true" war="file:${dist.dir}/${name}.war" />
+    <tomcat:deploy url="${tomcat.manager.url}" username="${tomcat.manager.username}" password="${tomcat.manager.password}"
+                   path="${tomcat.context}" update="true" war="file:${dist.dir}/${name}.war" />
   </target>
 
   <target name="undeploy" description="Undeploy application">
-    <undeploy url="${tomcat.manager.url}"
+    <tomcat:undeploy url="${tomcat.manager.url}"
                  username="${tomcat.manager.username}"
                  password="${tomcat.manager.password}"
                  path="${tomcat.context}"/>
-  </target-->
+  </target>
 
 </project>
